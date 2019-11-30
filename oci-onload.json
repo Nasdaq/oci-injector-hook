@@ -1,0 +1,21 @@
+{
+    "version": "201805",
+    "log_level": "LOG_DEBUG",
+    "activation_flag": "OCI_SOLARFLARE",
+    "driver_feature": ["onload"],
+
+    "inventory": {
+        "onload": {
+            "devices": ["onload", "onload_epoll", "sfc_char"],
+            "binaries": ["/usr/bin/onload", "/usr/bin/sfnt-pingpong", "/usr/sbin/onload_tool", "/usr/lib64/libonload.so"],
+            "libraries": ["/usr/lib64/libonload_ext.so",
+                          "/usr/lib64/libonload_ext.so.1.1.0",
+                          "/usr/lib64/libonload_zf.so",
+                          "/usr/lib64/libonload_zf.so.1.1.1",
+                          "/usr/lib64/libonload_zf_static.a",
+                          "/usr/lib64/libsfcaffinity.so"],
+            "directories": ["/usr/libexec/onload", "/usr/libexec/onload/profiles", "/usr/libexec/onload/apps"],
+            "miscellaneous": ["/usr/libexec/onload/profiles/latency.opf", "/usr/libexec/onload/profiles/latency-best.opf"]
+        }
+    }
+}
