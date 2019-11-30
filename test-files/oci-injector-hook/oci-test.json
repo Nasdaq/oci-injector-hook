@@ -1,0 +1,16 @@
+{
+	"activation_flag": "OCI_TEST",
+	"devices": [],
+	"binaries": [
+		"/usr/bin/go"
+	],
+	"libraries": [
+		"/usr/lib64/libperl.so.5.26.3"
+	],
+	"directories": [
+		"/opt/oci-test-files/test-dir"
+	],
+	"miscellaneous": [
+		"/opt/oci-test-files/file1"
+	]
+}
