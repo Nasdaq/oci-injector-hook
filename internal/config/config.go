@@ -44,7 +44,7 @@ func visitConfigDir(files *[]string) filepath.WalkFunc {
 }
 
 // GetVipers returns a map of config name -> *viper.Viper config objects
-func GetVipers() map[string]*viper.Viper {
+func GetConfigVipers() map[string]*viper.Viper {
 	log.Printf("oci-injector-hook: getting configs")
 
 	configDir, ok := os.LookupEnv("OCI_INJECTOR_CONFIG_DIR")
@@ -81,7 +81,7 @@ func GetVipers() map[string]*viper.Viper {
 
 func GetConfigs() []*InjectorConfig {
 	var configs []*InjectorConfig
-	for name, v := range GetVipers() {
+	for name, v := range GetConfigVipers() {
 		var config InjectorConfig
 
 		if err := v.Unmarshal(&config); err != nil {
