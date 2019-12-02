@@ -13,19 +13,12 @@ var configExt = ".json"
 
 type InjectorConfig struct {
 	Name           string
-	Version        string                     `mapstructure:"version"`
-	LogLevel       string                     `mapstructure:"log_level"`
-	ActivationFlag string                     `mapstructure:"activation_flag"`
-	DriverFeature  []string                   `mapstructure:"driver_feature"`
-	Inventory      map[string]InventoryConfig `mapstructure:"inventory"`
-}
-
-type InventoryConfig struct {
-	Devices     []string `mapstructure:"devices"`
-	Binaries    []string `mapstructure:"binaries"`
-	Libraries   []string `mapstructure:"libraries"`
-	Directories []string `mapstructure:"directories"`
-	Misc        []string `mapstructure:"miscellaneous"`
+	ActivationFlag string   `mapstructure:"activation_flag"`
+	Devices        []string `mapstructure:"devices"`
+	Binaries       []string `mapstructure:"binaries"`
+	Libraries      []string `mapstructure:"libraries"`
+	Directories    []string `mapstructure:"directories"`
+	Misc           []string `mapstructure:"miscellaneous"`
 }
 
 // visitConfigDir returns files in a directory with the extension configExt
