@@ -35,7 +35,7 @@ func GetConfigVipers() map[string]*viper.Viper {
 	// get config files in configDir
 	configFiles, err := filepath.Glob(configDir + "/*.json")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("couldn't get config files: %s", err)
 	}
 
 	vipers := make(map[string]*viper.Viper)
