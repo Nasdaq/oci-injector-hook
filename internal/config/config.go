@@ -27,8 +27,6 @@ type InjectorConfig struct {
 
 // GetVipers returns a map of config name -> *viper.Viper config objects
 func GetConfigVipers() map[string]*viper.Viper {
-	log.Printf("oci-injector-hook: getting configs")
-
 	configDir, ok := os.LookupEnv("OCI_INJECTOR_CONFIG_DIR")
 	if !ok {
 		configDir = defaultConfigDir
