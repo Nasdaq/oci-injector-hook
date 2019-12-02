@@ -1,3 +1,6 @@
+# built binary
+oci-injector-hook
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
