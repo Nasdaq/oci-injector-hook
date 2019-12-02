@@ -1,7 +1,16 @@
 {
 	"activation_flag": "OCI_SOLARFLARE",
-	"devices": ["onload", "onload_epoll", "sfc_char"],
-	"binaries": ["/usr/bin/onload", "/usr/bin/sfnt-pingpong", "/usr/sbin/onload_tool", "/usr/lib64/libonload.so"],
+	"devices": [
+		"onload",
+		"onload_epoll",
+		"sfc_char"
+	],
+	"binaries": [
+		"/usr/bin/onload",
+		"/usr/bin/sfnt-pingpong",
+		"/usr/sbin/onload_tool",
+		"/usr/lib64/libonload.so"
+	],
 	"libraries": [
 		"/usr/lib64/libonload_ext.so",
 		"/usr/lib64/libonload_ext.so.1.1.0",
@@ -10,6 +19,13 @@
 		"/usr/lib64/libonload_zf_static.a",
 		"/usr/lib64/libsfcaffinity.so"
 	],
-	"directories": ["/usr/libexec/onload", "/usr/libexec/onload/profiles", "/usr/libexec/onload/apps"],
-	"miscellaneous": ["/usr/libexec/onload/profiles/latency.opf", "/usr/libexec/onload/profiles/latency-best.opf"]
+	"directories": [
+		"/usr/libexec/onload",
+		"/usr/libexec/onload/profiles",
+		"/usr/libexec/onload/apps"
+	],
+	"miscellaneous": [
+		"/usr/libexec/onload/profiles/latency.opf",
+		"/usr/libexec/onload/profiles/latency-best.opf"
+	]
 }
