@@ -1,7 +1,11 @@
 package config
 
 import (
+	"bufio"
+	"encoding/json"
+	specs "github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/spf13/viper"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -87,4 +91,12 @@ func GetConfigs() []*InjectorConfig {
 	}
 
 	return configs
+}
+
+func GetState(stdin io.Reader) (*specs.State, error) {
+	var state specs.State
+	//json.Unmarshal([]byte(input), &state
+	err := json.NewDecoder(bufio.NewReader(stdin)).Decode(&state)
+
+	return &state, err
 }

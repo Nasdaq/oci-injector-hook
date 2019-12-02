@@ -3,10 +3,23 @@ package main
 import (
 	"github.com/gclawes/oci-injector-hook/internal/config"
 	"log"
+	"os"
 )
 
 func main() {
 	log.Printf("oci-injector-hook: starting")
+
+	state, err := config.GetState(os.Stdin)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("state.Version=%s", state.Version)
+	log.Printf("state.ID=%s", state.ID)
+	log.Printf("state.Status=%s", state.Status)
+	log.Printf("state.Pid=%d", state.Pid)
+	log.Printf("state.Bundle=%s", state.Bundle)
+	log.Printf("state.Annotations=%s", state.Annotations)
 
 	configs := config.GetConfigs()
 	for _, config := range configs {
