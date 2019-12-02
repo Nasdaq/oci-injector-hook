@@ -25,21 +25,6 @@ type InjectorConfig struct {
 	Misc           []string `mapstructure:"miscellaneous"`
 }
 
-// visitConfigDir returns files in a directory with the extension configExt
-// from https://flaviocopes.com/go-list-files/
-func visitConfigDir(files *[]string) filepath.WalkFunc {
-	return func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if filepath.Ext(path) == configExt {
-			*files = append(*files, path)
-		}
-		return nil
-	}
-}
-
 // GetVipers returns a map of config name -> *viper.Viper config objects
 func GetConfigVipers() map[string]*viper.Viper {
 	log.Printf("oci-injector-hook: getting configs")
@@ -49,15 +34,13 @@ func GetConfigVipers() map[string]*viper.Viper {
 		configDir = defaultConfigDir
 	}
 
-	var configFiles []string
-	// var configs []*InjectorConfig
-	vipers := make(map[string]*viper.Viper)
-
 	// get config files in configDir
-	err := filepath.Walk(configDir, visitConfigDir(&configFiles))
+	configFiles, err := filepath.Glob(configDir + "/*.json")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	vipers := make(map[string]*viper.Viper)
 
 	for _, file := range configFiles {
 		configName := strings.TrimSuffix(file, configExt)
