@@ -35,7 +35,7 @@ func GetConfigVipers() map[string]*viper.Viper {
 	// get config files in configDir
 	configFiles, err := filepath.Glob(configDir + "/*.json")
 	if err != nil {
-		log.Fatal("couldn't get config files: %s", err)
+		log.Fatalf("couldn't get config files: %s", err)
 	}
 
 	vipers := make(map[string]*viper.Viper)
@@ -48,7 +48,7 @@ func GetConfigVipers() map[string]*viper.Viper {
 		v.AddConfigPath(configDir)
 
 		if err := v.ReadInConfig(); err != nil {
-			log.Fatal("couldn't read config: %s", err)
+			log.Fatalf("couldn't read config: %s", err)
 		}
 
 		vipers[configName] = v
@@ -63,7 +63,7 @@ func GetConfigs() []*InjectorConfig {
 		var config InjectorConfig
 
 		if err := v.Unmarshal(&config); err != nil {
-			log.Fatal("couldn't unmarshal config: %s", err)
+			log.Fatalf("couldn't unmarshal config: %s", err)
 		}
 
 		config.Name = name
