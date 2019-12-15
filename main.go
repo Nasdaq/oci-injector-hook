@@ -1,9 +1,13 @@
 package main
 
 import (
+	// "encoding/json"
 	"github.com/gclawes/oci-injector-hook/internal/config"
+	"github.com/gclawes/oci-injector-hook/internal/runtime"
+	// specs "github.com/opencontainers/runtime-spec/specs-go"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"path/filepath"
 )
 
 func init() {
@@ -38,5 +42,26 @@ func main() {
 		log.Debugf("configs[%s].Libraries=%s", config.Name, config.Libraries)
 		log.Debugf("configs[%s].Directories=%s", config.Name, config.Directories)
 		log.Debugf("configs[%s].Misc=%s", config.Name, config.Misc)
+
+		// var containerConfig specs.Spec
+
+		configJson, err := os.Open(filepath.Join(state.Bundle, "config.json"))
+		log.Info(configJson)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// err = json.NewDecoder(bufio.NewReader(stdin)).Decode(&containerConfig)
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+
+		runtime.SetupDevices(config, state)
+		runtime.CopyBinaries(config, state)
+		runtime.CopyLibraries(config, state)
+		runtime.CopyDirectories(config, state)
+		runtime.CopyMisc(config, state)
 	}
+
 }
