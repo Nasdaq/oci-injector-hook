@@ -1,11 +1,12 @@
 package main
 
 import (
-	// "encoding/json"
+	"encoding/json"
 	"github.com/gclawes/oci-injector-hook/internal/config"
 	"github.com/gclawes/oci-injector-hook/internal/runtime"
-	// specs "github.com/opencontainers/runtime-spec/specs-go"
+	specs "github.com/opencontainers/runtime-spec/specs-go"
 	log "github.com/sirupsen/logrus"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -43,25 +44,29 @@ func main() {
 		log.Debugf("configs[%s].Directories=%s", config.Name, config.Directories)
 		log.Debugf("configs[%s].Misc=%s", config.Name, config.Misc)
 
-		// var containerConfig specs.Spec
+		configJson, err := ioutil.ReadFile(filepath.Join(state.Bundle, "config.json"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Info(string(configJson))
 
-		configJson, err := os.Open(filepath.Join(state.Bundle, "config.json"))
-		log.Info(configJson)
-
+		var containerConfig specs.Spec
+		err = json.Unmarshal(configJson, &containerConfig)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		// err = json.NewDecoder(bufio.NewReader(stdin)).Decode(&containerConfig)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
+		log.Info("containerConfig.Process.Env=%s", containerConfig.Process.Env)
 
-		runtime.SetupDevices(config, state)
-		runtime.CopyBinaries(config, state)
-		runtime.CopyLibraries(config, state)
-		runtime.CopyDirectories(config, state)
-		runtime.CopyMisc(config, state)
+		if config.ActivationFlagPresent(containerConfig.Process.Env) {
+			runtime.SetupDevices(config, state)
+			runtime.CopyBinaries(config, state)
+			runtime.CopyLibraries(config, state)
+			runtime.CopyDirectories(config, state)
+			runtime.CopyMisc(config, state)
+		} else {
+			log.Infof("activation flag %s not present!", config.ActivationFlag)
+		}
+
 	}
-
 }
