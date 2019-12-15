@@ -33,13 +33,6 @@ func main() {
 
 	configs := config.GetConfigs()
 	for _, config := range configs {
-		log.Debugf("configs[%s].ActivationFlag=%s", config.Name, config.ActivationFlag)
-		log.Debugf("configs[%s].Devices=%s", config.Name, config.Devices)
-		log.Debugf("configs[%s].Binaries=%s", config.Name, config.Binaries)
-		log.Debugf("configs[%s].Libraries=%s", config.Name, config.Libraries)
-		log.Debugf("configs[%s].Directories=%s", config.Name, config.Directories)
-		log.Debugf("configs[%s].Misc=%s", config.Name, config.Misc)
-
 		configJson, err := ioutil.ReadFile(filepath.Join(state.Bundle, "config.json"))
 		if err != nil {
 			log.Fatal(err)
