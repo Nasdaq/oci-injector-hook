@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -80,4 +81,14 @@ func GetState(stdin io.Reader) (*specs.State, error) {
 	err := json.NewDecoder(bufio.NewReader(stdin)).Decode(&state)
 
 	return &state, err
+}
+
+func (c *InjectorConfig) ActivationFlagPresent(env []string) bool {
+	pattern := regexp.MustCompile("^" + c.ActivationFlag + "=")
+	for _, token := range env {
+		if pattern.MatchString(token) {
+			return true
+		}
+	}
+	return false
 }
