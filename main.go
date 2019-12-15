@@ -24,12 +24,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Debugf("state.Version=%s", state.Version)
-	log.Debugf("state.ID=%s", state.ID)
-	log.Debugf("state.Status=%s", state.Status)
-	log.Debugf("state.Pid=%d", state.Pid)
-	log.Debugf("state.Bundle=%s", state.Bundle)
-	log.Debugf("state.Annotations=%s", state.Annotations)
+	log.Debugf("state=%+v", state)
 
 	configs := config.GetConfigs()
 	for _, config := range configs {
