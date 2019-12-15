@@ -3,7 +3,7 @@
 	"id": "oci-container1",
 	"status": "running",
 	"pid": 4422,
-	"bundle": "/containers/redis",
+	"bundle": "/tmp/containers/redis",
 	"annotations": {
 		"myKey": "myValue"
 	}
