@@ -19,9 +19,6 @@ func init() {
 }
 
 func main() {
-	log.Debugf("oci-injector-hook: starting")
-
-	log.Debugf("oci-injector-hook: getting container state from stdin")
 	state, err := config.GetState(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
@@ -34,7 +31,6 @@ func main() {
 	log.Debugf("state.Bundle=%s", state.Bundle)
 	log.Debugf("state.Annotations=%s", state.Annotations)
 
-	log.Debugf("oci-injector-hook: getting configs")
 	configs := config.GetConfigs()
 	for _, config := range configs {
 		log.Debugf("configs[%s].ActivationFlag=%s", config.Name, config.ActivationFlag)
