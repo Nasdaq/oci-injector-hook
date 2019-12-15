@@ -44,7 +44,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Info(string(configJson))
 
 		var containerConfig specs.Spec
 		err = json.Unmarshal(configJson, &containerConfig)
@@ -52,7 +51,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		log.Info("containerConfig.Process.Env=%s", containerConfig.Process.Env)
+		log.Debug("containerConfig.Process.Env=%s", containerConfig.Process.Env)
 
 		if config.ActivationFlagPresent(containerConfig.Process.Env) {
 			runtime.SetupDevices(config, state)
