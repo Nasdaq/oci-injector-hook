@@ -1,0 +1,5 @@
+{
+	"process": {
+		"env": [ "OCI_SOLARFLARE=true" ]
+	}
+}
