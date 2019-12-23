@@ -52,9 +52,9 @@ func main() {
 
 		if config.ActivationFlagPresent(containerConfig.Process.Env) {
 			runtime.SetupDevices(config, &containerConfig)
+			runtime.CreateDirectories(config, &containerConfig)
 			runtime.CopyBinaries(config, &containerConfig)
 			runtime.CopyLibraries(config, &containerConfig)
-			runtime.CreateDirectories(config, &containerConfig)
 			runtime.CopyMisc(config, &containerConfig)
 		} else {
 			log.Infof("activation flag %s not present!", config.ActivationFlag)
