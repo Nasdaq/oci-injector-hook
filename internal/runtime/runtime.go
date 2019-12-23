@@ -58,7 +58,11 @@ func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
 
 func CopyBinaries(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("copying binaries '%s' to '%s'", config.Binaries, state.Root.Path)
-	log.Warn("CopyBinaries not implemented!")
+	for _, bin := range config.Binaries {
+		dst := filepath.Join(state.Root.Path, bin)
+		log.Debugf("copying binary: %s -> %s", bin, dst)
+		CopyFile(bin, dst)
+	}
 }
 
 func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
