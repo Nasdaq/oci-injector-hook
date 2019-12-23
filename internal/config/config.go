@@ -42,7 +42,7 @@ func GetConfigVipers() map[string]*viper.Viper {
 	vipers := make(map[string]*viper.Viper)
 
 	for _, file := range configFiles {
-		configName := strings.TrimSuffix(file, configExt)
+		configName := strings.TrimSuffix(filepath.Base(file), configExt)
 
 		v := viper.New()
 		v.SetConfigName(configName)
