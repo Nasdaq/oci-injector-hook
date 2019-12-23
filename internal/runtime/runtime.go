@@ -13,16 +13,6 @@ func SetupDevices(config *config.InjectorConfig, state *specs.Spec) {
 	log.Warn("SetupDevices not implemented!")
 }
 
-func CopyBinaries(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("copying binaries '%s' to '%s'", config.Binaries, state.Root.Path)
-	log.Warn("CopyBinaries not implemented!")
-}
-
-func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("copying libraries '%s' to '%s'", config.Libraries, state.Root.Path)
-	log.Warn("CopyLibraries not implemented!")
-}
-
 func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("creating directories '%s' in '%s'", config.Directories, state.Root.Path)
 	for _, dir := range config.Directories {
@@ -33,6 +23,16 @@ func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
 			log.Fatal(err)
 		}
 	}
+}
+
+func CopyBinaries(config *config.InjectorConfig, state *specs.Spec) {
+	log.Debugf("copying binaries '%s' to '%s'", config.Binaries, state.Root.Path)
+	log.Warn("CopyBinaries not implemented!")
+}
+
+func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
+	log.Debugf("copying libraries '%s' to '%s'", config.Libraries, state.Root.Path)
+	log.Warn("CopyLibraries not implemented!")
 }
 
 func CopyMisc(config *config.InjectorConfig, state *specs.Spec) {
