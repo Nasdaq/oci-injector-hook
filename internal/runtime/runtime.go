@@ -4,9 +4,40 @@ import (
 	"github.com/gclawes/oci-injector-hook/internal/config"
 	specs "github.com/opencontainers/runtime-spec/specs-go"
 	log "github.com/sirupsen/logrus"
+	"io"
 	"os"
 	"path/filepath"
 )
+
+func CopyFile(src, dst string) {
+	log.Infof("copying src=%s -> dst=%s", src, dst)
+	var err error
+	var srcfd *os.File
+	var dstfd *os.File
+	var srcstat os.FileInfo
+
+	if srcfd, err = os.Open(src); err != nil {
+		log.Fatal(err)
+	}
+	defer srcfd.Close()
+
+	if dstfd, err = os.Create(dst); err != nil {
+		log.Fatal(err)
+	}
+	defer dstfd.Close()
+
+	if _, err = io.Copy(dstfd, srcfd); err != nil {
+		log.Fatal(err)
+	}
+
+	if srcstat, err = os.Stat(src); err != nil {
+		log.Fatal(err)
+	}
+
+	if err = os.Chmod(dst, srcstat.Mode()); err != nil {
+		log.Fatal(err)
+	}
+}
 
 func SetupDevices(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("setting up devices '%s' under '%s'", config.Devices, state.Root.Path)
