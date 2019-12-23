@@ -6,7 +6,9 @@ import (
 	"github.com/gclawes/oci-injector-hook/internal/runtime"
 	specs "github.com/opencontainers/runtime-spec/specs-go"
 	log "github.com/sirupsen/logrus"
+	logrus_syslog "github.com/sirupsen/logrus/hooks/syslog"
 	"io/ioutil"
+	"log/syslog"
 	"os"
 	"path/filepath"
 )
@@ -15,6 +17,13 @@ func init() {
 	debug, ok := os.LookupEnv("DEBUG")
 	if ok && debug == "true" {
 		log.SetLevel(log.DebugLevel)
+	}
+
+	hook, err := logrus_syslog.NewSyslogHook("", "", syslog.LOG_INFO, "")
+	if err != nil {
+		log.Fatal("Unable to connect to local syslog daemon")
+	} else {
+		log.AddHook(hook)
 	}
 }
 
