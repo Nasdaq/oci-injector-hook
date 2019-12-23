@@ -6,6 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
 
@@ -67,7 +68,15 @@ func CopyBinaries(config *config.InjectorConfig, state *specs.Spec) {
 
 func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("copying libraries '%s' to '%s'", config.Libraries, state.Root.Path)
-	log.Warn("CopyLibraries not implemented!")
+	for _, lib := range config.Libraries {
+		dst := filepath.Join(state.Root.Path, lib)
+		log.Debugf("copying library: %s -> %s", lib, dst)
+		CopyFile(lib, dst)
+	}
+
+	if _, err := exec.Command("chroot", state.Root.Path, "ldconfig").Output(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func CopyMisc(config *config.InjectorConfig, state *specs.Spec) {
