@@ -81,5 +81,9 @@ func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
 
 func CopyMisc(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("copying misc files '%s' to '%s'", config.Misc, state.Root.Path)
-	log.Warn("CopyMisc not implemented!")
+	for _, file := range config.Misc {
+		dst := filepath.Join(state.Root.Path, file)
+		log.Debugf("copying misc file: %s -> %s", file, dst)
+		CopyFile(file, dst)
+	}
 }
