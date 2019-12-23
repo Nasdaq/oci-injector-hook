@@ -48,8 +48,8 @@ func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
 	log.Debugf("creating directories '%s' in '%s'", config.Directories, state.Root.Path)
 	for _, dir := range config.Directories {
 		dst_dir := filepath.Join(state.Root.Path, dir)
-		log.Infof("creating directory: %s", dst_dir)
-		err := os.MkdirAll(dst_dir, os.FileMode(int(0755)))
+		log.Debugf("creating directory: %s", dst_dir)
+		err := os.MkdirAll(dst_dir, 0755)
 		if err != nil {
 			log.Fatal(err)
 		}
