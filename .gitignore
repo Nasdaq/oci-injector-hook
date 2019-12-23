@@ -33,3 +33,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# Vagrant
+.vagrant/
