@@ -10,7 +10,7 @@ import (
 )
 
 func CopyFile(src, dst string) {
-	log.Infof("copying src=%s -> dst=%s", src, dst)
+	log.Debugf("copying src=%s -> dst=%s", src, dst)
 	var err error
 	var srcfd *os.File
 	var dstfd *os.File
