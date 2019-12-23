@@ -51,11 +51,11 @@ func main() {
 		log.Debug("containerConfig.Process.Env=%s", containerConfig.Process.Env)
 
 		if config.ActivationFlagPresent(containerConfig.Process.Env) {
-			runtime.SetupDevices(config, state)
-			runtime.CopyBinaries(config, state)
-			runtime.CopyLibraries(config, state)
-			runtime.CopyDirectories(config, state)
-			runtime.CopyMisc(config, state)
+			runtime.SetupDevices(config, &containerConfig)
+			runtime.CopyBinaries(config, &containerConfig)
+			runtime.CopyLibraries(config, &containerConfig)
+			runtime.CreateDirectories(config, &containerConfig)
+			runtime.CopyMisc(config, &containerConfig)
 		} else {
 			log.Infof("activation flag %s not present!", config.ActivationFlag)
 		}
