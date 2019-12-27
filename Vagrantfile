@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "/Users/gclawes/.vim", "/home/vagrant/.vim"
+  config.vm.synced_folder "#{ENV['HOME']}/.vim", "/home/vagrant/.vim" if Dir.exist? "#{ENV['HOME']}/.vim"
   config.vm.synced_folder ".", "/home/vagrant/oci-injector-hook"
   config.vm.synced_folder "./test-files/oci-injector-hook", "/etc/oci-injector-hook"
   config.vm.synced_folder "./test-files/hooks.d", "/etc/containers/oci/hooks.d"
