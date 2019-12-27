@@ -15,6 +15,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/8"
   config.vm.box_version = "1905.1"
 
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = true
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
