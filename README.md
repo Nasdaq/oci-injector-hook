@@ -13,6 +13,9 @@ It is sometimes useful to inject platform-specific files and devices into an OCI
 ## Configuration
 Configurations are definied in .json files placed in the `/etc/oci-injector-hook/` directory.  Each configuration has an `activation_flag`, which indicates an environment variable that must be present in the container's environment for the hook to execute.
 
+The `activation_flag` can either be the name of an environment variable (`VAR`) or a variable with a value (`VAR=value`).
+When a name is given the hook will run when the environment variable is present, when a variable with a value is given the hook will only run when the variable is present with the given value.
+
 An example configuration file:
 `/etc/oci-injector-hook/foo.json`
 ```

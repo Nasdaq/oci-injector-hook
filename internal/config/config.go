@@ -84,7 +84,14 @@ func GetState(stdin io.Reader) (*specs.State, error) {
 }
 
 func (c *InjectorConfig) ActivationFlagPresent(env []string) bool {
-	pattern := regexp.MustCompile("^" + c.ActivationFlag + "=")
+	var flag_re string
+	if match, _ := regexp.MatchString(`^[a-zA-Z_]+[a-zA-Z0-9_]*=.*$`, c.ActivationFlag); match {
+		flag_re = "^" + c.ActivationFlag + "$"
+	} else {
+		flag_re = "^" + c.ActivationFlag + "="
+	}
+
+	pattern := regexp.MustCompile(flag_re)
 	for _, token := range env {
 		if pattern.MatchString(token) {
 			return true
