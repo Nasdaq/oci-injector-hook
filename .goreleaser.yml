@@ -44,3 +44,5 @@ nfpms:
       file_name_template: "{{ .ProjectName }}-{{ .Version }}.{{ .Arch }}"
       dependencies:
       - podman
+    deb:
+      file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
