@@ -40,15 +40,15 @@ func CopyFile(src, dst string) {
 	}
 }
 
-func SetupDevices(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("setting up devices '%s' under '%s'", config.Devices, state.Root.Path)
+func SetupDevices(config *config.InjectorConfig, containerConfig *specs.Spec) {
+	log.Debugf("setting up devices '%s' under '%s'", config.Devices, containerConfig.Root.Path)
 	log.Warn("SetupDevices not implemented!")
 }
 
-func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("creating directories '%s' in '%s'", config.Directories, state.Root.Path)
+func CreateDirectories(config *config.InjectorConfig, containerConfig *specs.Spec) {
+	log.Debugf("creating directories '%s' in '%s'", config.Directories, containerConfig.Root.Path)
 	for _, dir := range config.Directories {
-		dst_dir := filepath.Join(state.Root.Path, dir)
+		dst_dir := filepath.Join(containerConfig.Root.Path, dir)
 		log.Debugf("creating directory: %s", dst_dir)
 		err := os.MkdirAll(dst_dir, 0755)
 		if err != nil {
@@ -57,32 +57,32 @@ func CreateDirectories(config *config.InjectorConfig, state *specs.Spec) {
 	}
 }
 
-func CopyBinaries(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("copying binaries '%s' to '%s'", config.Binaries, state.Root.Path)
+func CopyBinaries(config *config.InjectorConfig, containerConfig *specs.Spec) {
+	log.Debugf("copying binaries '%s' to '%s'", config.Binaries, containerConfig.Root.Path)
 	for _, bin := range config.Binaries {
-		dst := filepath.Join(state.Root.Path, bin)
+		dst := filepath.Join(containerConfig.Root.Path, bin)
 		log.Debugf("copying binary: %s -> %s", bin, dst)
 		CopyFile(bin, dst)
 	}
 }
 
-func CopyLibraries(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("copying libraries '%s' to '%s'", config.Libraries, state.Root.Path)
+func CopyLibraries(config *config.InjectorConfig, containerConfig *specs.Spec) {
+	log.Debugf("copying libraries '%s' to '%s'", config.Libraries, containerConfig.Root.Path)
 	for _, lib := range config.Libraries {
-		dst := filepath.Join(state.Root.Path, lib)
+		dst := filepath.Join(containerConfig.Root.Path, lib)
 		log.Debugf("copying library: %s -> %s", lib, dst)
 		CopyFile(lib, dst)
 	}
 
-	if _, err := exec.Command("chroot", state.Root.Path, "ldconfig").Output(); err != nil {
+	if _, err := exec.Command("chroot", containerConfig.Root.Path, "ldconfig").Output(); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func CopyMisc(config *config.InjectorConfig, state *specs.Spec) {
-	log.Debugf("copying misc files '%s' to '%s'", config.Misc, state.Root.Path)
+func CopyMisc(config *config.InjectorConfig, containerConfig *specs.Spec) {
+	log.Debugf("copying misc files '%s' to '%s'", config.Misc, containerConfig.Root.Path)
 	for _, file := range config.Misc {
-		dst := filepath.Join(state.Root.Path, file)
+		dst := filepath.Join(containerConfig.Root.Path, file)
 		log.Debugf("copying misc file: %s -> %s", file, dst)
 		CopyFile(file, dst)
 	}
