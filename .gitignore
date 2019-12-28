@@ -36,3 +36,6 @@ tags
 
 # Vagrant
 .vagrant/
+
+# dist folder
+dist/
