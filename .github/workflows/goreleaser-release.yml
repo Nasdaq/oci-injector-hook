@@ -1,6 +1,7 @@
 name: goreleaser-release
 
 on:
+  pull_request:
   push:
 
 jobs:
