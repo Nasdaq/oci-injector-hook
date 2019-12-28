@@ -37,7 +37,10 @@ nfpms:
     - /etc/oci-injector-hook
   files:
     "config/oci-injector-hook.json": "/etc/containers/oci/hooks.d/oci-injector-hook.json"
+  replacements:
+    amd64: x86_64
   overrides:
     rpm:
+      file_name_template: "{{ .ProjectName }}-{{ .Version }}.{{ .Arch }}"
       dependencies:
       - podman
