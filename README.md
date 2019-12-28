@@ -31,5 +31,5 @@ This project is licensed under the Apache-2.0 License
 
 ## Inspiration
 This project was inspired by work done in the following projects to support SolarFlare Network Adapters:
-https://github.com/zvonkok/oci-decorator
-https://github.com/solarflarecommunications/sfc-k8s-prestart-hook
+* https://github.com/zvonkok/oci-decorator
+* https://github.com/solarflarecommunications/sfc-k8s-prestart-hook
