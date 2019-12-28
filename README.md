@@ -18,21 +18,11 @@ An example configuration file:
 ```
 {
   "activation_flag": "OCI_FOO",
-  "devices": [
-    "/dev/foo",
-  ],
-  "binaries": [
-    "/usr/bin/runfoo",
-  ],
-  "libraries": [
-    "/usr/lib64/libfoo.so",
-  ],
-  "directories": [
-    "/etc/foo",
-  ],
-  "miscellaneous": [
-    "/etc/foo/config.json",
-  ]
+  "devices": [ "/dev/foo" ],
+  "binaries": [ "/usr/bin/runfoo" ],
+  "libraries": [ "/usr/lib64/libfoo.so" ],
+  "directories": [ "/etc/foo" ],
+  "miscellaneous": [ "/etc/foo/config.json" ]
 }
 ```
 
