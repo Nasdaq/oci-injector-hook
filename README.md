@@ -1,6 +1,8 @@
 # oci-injector-hook
 
-It is sometimes useful to inject platform-specific files and devices into an OCI container at runtime.  Common use cases include device drivers (GPUs, network adapters, FPGAs, etc).  This hook uses the [POSIX-platform Hooks](https://github.com/opencontainers/runtime-spec/blob/master/config.md#posix-platform-hooks) from the OCI Runtime Spec to inject these files into a container's rootfs before the container is started.
+It is sometimes useful to inject platform-specific files and devices into an OCI container at runtime.
+Common use cases include device drivers (GPUs, network adapters, FPGAs, etc).
+This hook uses the [POSIX-platform Hooks](https://github.com/opencontainers/runtime-spec/blob/master/config.md#posix-platform-hooks) from the OCI Runtime Spec to inject these files into a container's rootfs before the container is started.
 
 ## Supported File Types
 * Devices (not yet implemented) - Device files under /dev/
