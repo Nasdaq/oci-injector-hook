@@ -22,8 +22,5 @@ jobs:
           version: latest
           args: release --skip-publish --rm-dist
       -
-        name: Upload RPM artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: rpm
-          path: dist/*.rpm
+        name: Inspect dist
+        run: ls -lah dist/
