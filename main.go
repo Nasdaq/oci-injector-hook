@@ -51,7 +51,7 @@ func main() {
 		log.Debug("containerConfig.Process.Env=%s", containerConfig.Process.Env)
 
 		if config.ActivationFlagPresent(containerConfig.Process.Env) {
-			runtime.SetupDevices(config, &containerConfig)
+			runtime.SetupDevices(config, &containerConfig, state)
 			runtime.CreateDirectories(config, &containerConfig)
 			runtime.CopyBinaries(config, &containerConfig)
 			runtime.CopyLibraries(config, &containerConfig)

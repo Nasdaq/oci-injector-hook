@@ -1,6 +1,6 @@
 {
 	"activation_flag": "OCI_TEST",
-	"devices": [],
+	"devices": [ "/dev/fuse" ],
 	"binaries": [
 		"/usr/bin/go"
 	],

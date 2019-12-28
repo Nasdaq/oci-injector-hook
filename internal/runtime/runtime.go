@@ -1,13 +1,20 @@
 package runtime
 
 import (
+	"bufio"
+	"fmt"
 	"github.com/gclawes/oci-injector-hook/internal/config"
 	specs "github.com/opencontainers/runtime-spec/specs-go"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/sys/unix"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
+	"strconv"
+	"strings"
+	"syscall"
 )
 
 func CopyFile(src, dst string) {
@@ -40,9 +47,85 @@ func CopyFile(src, dst string) {
 	}
 }
 
-func SetupDevices(config *config.InjectorConfig, containerConfig *specs.Spec) {
+/*
+FIXME: replace with cgroups.ParseCgroupFile from github.com/opencontainers/runc/libcontainer/cgroups
+This is currently broken due to some go dependency bug with github.com/Sirupsen/logrus,
+which has a case-sensitivie dependency conflict with github.com/sirupsen/logrus
+	cgroup_procfile := filepath.Join("/proc", strconv.Itoa(state.Pid), "cgroup")
+	cgroup, err := cgroups.ParseCgroupFile(cgroup_procfile)
+*/
+func GetDevicesCgroup(pid int) (string, error) {
+	var cgroup string
+	filepath := filepath.Join("/proc", strconv.Itoa(pid), "cgroup")
+
+	procfile, err := os.Open(filepath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer procfile.Close()
+
+	scanner := bufio.NewScanner(procfile)
+	scanner.Split(bufio.ScanLines)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if match, _ := regexp.MatchString("^[0-9]+:devices", line); match {
+			return strings.Split(line, ":")[2], nil
+		}
+	}
+
+	return cgroup, fmt.Errorf("unable to determine devices cgroup for pid=%d", pid)
+}
+
+func GetDeviceType(stat syscall.Stat_t) (string, error) {
+	if stat.Mode&syscall.DT_CHR == syscall.DT_CHR {
+		return "c", nil
+	} else if stat.Mode&syscall.DT_BLK == syscall.DT_BLK {
+		return "b", nil
+	} else {
+		return "", fmt.Errorf("cant determine device type for stat.Mode=%d", stat.Mode)
+	}
+}
+
+func SetupDevices(config *config.InjectorConfig, containerConfig *specs.Spec, state *specs.State) {
 	log.Debugf("setting up devices '%s' under '%s'", config.Devices, containerConfig.Root.Path)
-	log.Warn("SetupDevices not implemented!")
+	for _, devname := range config.Devices {
+		var dev string
+		var err error
+		if match, _ := regexp.MatchString(`^/dev/`, devname); match {
+			dev = devname
+		} else {
+			dev = filepath.Join("/dev", devname)
+		}
+
+		host_stat := syscall.Stat_t{}
+		if err = syscall.Stat(dev, &host_stat); err != nil {
+			log.Fatal(err)
+		}
+
+		major := unix.Major(uint64(host_stat.Rdev))
+		minor := unix.Minor(uint64(host_stat.Rdev))
+
+		// create device file in rootfs
+		log.Infof("creating device %s", filepath.Join(containerConfig.Root.Path, dev))
+		if err = syscall.Mknod(filepath.Join(containerConfig.Root.Path, dev), uint32(host_stat.Mode), int(unix.Mkdev(major, minor))); err != nil {
+			log.Fatal(err)
+		}
+
+		// get cgroup name
+		cgroup, err := GetDevicesCgroup(state.Pid)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		devtype, err := GetDeviceType(host_stat)
+		log.Infof("type=%s cgroup=%s", devtype, cgroup)
+		// run cgset to allow the device in the container cgroup
+		allow_str := fmt.Sprintf("devices=%s %d:%d rwm")
+		if _, err := exec.Command("cgset", "-r", allow_str, cgroup).Output(); err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func CreateDirectories(config *config.InjectorConfig, containerConfig *specs.Spec) {
